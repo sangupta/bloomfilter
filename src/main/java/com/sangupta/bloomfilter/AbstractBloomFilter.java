@@ -1,3 +1,24 @@
+/**
+ *
+ * bloomfilter - Bloom filters for Java
+ * Copyright (c) 2014, Sandeep Gupta
+ * 
+ * http://sangupta.com/projects/bloomfilter
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ */
+
 package com.sangupta.bloomfilter;
 
 import java.nio.charset.Charset;
@@ -14,8 +35,18 @@ import com.sangupta.bloomfilter.hash.Murmur3HashFunction;
 /**
  * An abstract implementation for the bloom filter.
  * 
+ * The default composer is a simple {@link Object#toString()} decomposer which
+ * then converts this {@link String} into raw bytes.
+ * 
+ * The default {@link HashFunction} used by the bloom filter is the
+ * {@link Murmur3HashFunction}.
+ * 
+ * One may override the decomposer to be used, the hash function to be used
+ * as well as the implementation of the {@link BitArray} that needs to be
+ * used.
+ * 
  * @author sangupta
- *
+ * 
  * @param <T>
  */
 public abstract class AbstractBloomFilter<T> implements BloomFilter<T> {

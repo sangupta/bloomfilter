@@ -94,7 +94,7 @@ public interface BitArray {
 	public void and(BitArray bitArray);
 	
 	/**
-	 * The space used by this {@link BitArray}.
+	 * The space used by this {@link BitArray} in number of bytes.
 	 * 
 	 * @return
 	 */

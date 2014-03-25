@@ -2,7 +2,7 @@ bloomfilter
 ===========
 
 `bloomfilter` is a pure Java Bloom Filter implementation that provides simple persistable bloom filters. The
-whole filter is abstracted into various layers so that the same can be changed by pure plug-and-play implementations
+entire bloom filter is abstracted into various layers so that the same can be changed by pure plug-and-play implementations
 such as decomposing an object to a byte-stream, or the hash function to be used, or the serialization strategy to
 be used.
 
@@ -10,8 +10,13 @@ Why another Bloom Filter implementation?
 -----------------------------------------
 
 `bloomfilter` was developed as I was looking for a fast persistable bloom filter implementation that could
-be customized to suit needs. The Google Guava bloom filter for some reason cannot be persisted well, does not
-provide for a disk-backed bit array implementation and all.
+be customized to suit needs. The `Google Guava` bloom filter for few reasons cannot be persisted well, does not
+provide for a disk-backed bit array implementation, missing a counting bloom filter and last not the least 
+the size of the payload. Many of my modules/projects did not need `Guava` and adding it just for using the 
+bloom filter was coming out to be expensive. Thus, `bloomfilter` was born.
+
+The `bloomfilter` is inspired by the `Guava` bloom filter implementation and uses a similar approach, with 
+more extensions baked in.
 
 Features
 --------

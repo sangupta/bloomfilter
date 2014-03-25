@@ -97,6 +97,11 @@ public abstract class AbstractBloomFilter<T> implements BloomFilter<T> {
 	 */
 	protected final HashFunction hasher;
 	
+	/**
+	 * Number of bits required for the bloom filter
+	 */
+	protected final int numBitsRequired;
+	
 	// Various construction mechanisms
 	
 	/**
@@ -150,9 +155,9 @@ public abstract class AbstractBloomFilter<T> implements BloomFilter<T> {
 	 *            the hashing function
 	 */
 	protected AbstractBloomFilter(int expectedInsertions, double falsePositiveProbability, Decomposer<T> decomposer, HashFunction hasher) {
-		int numBits = optimalBitSizeOrM(expectedInsertions, falsePositiveProbability);
-		this.kOrNumberOfHashFunctions = optimalNumberofHashFunctionsOrK(expectedInsertions, numBits);
-		this.bitArray = createBitArray(numBits);
+		this.numBitsRequired = optimalBitSizeOrM(expectedInsertions, falsePositiveProbability);
+		this.kOrNumberOfHashFunctions = optimalNumberofHashFunctionsOrK(expectedInsertions, numBitsRequired);
+		this.bitArray = createBitArray(numBitsRequired);
 		
 		this.customDecomposer = decomposer;
 		
@@ -204,12 +209,26 @@ public abstract class AbstractBloomFilter<T> implements BloomFilter<T> {
 	 * Create a new {@link BitArray} instance for the given number of bits.
 	 * 
 	 * @param numBits
-	 * @return
+	 *            the number of required bits in the underlying array
+	 * 
+	 * @return the {@link BitArray} implementation to be used
 	 */
 	protected abstract BitArray createBitArray(int numBits);
 	
 	// Main functions that govern the bloom filter
 	
+	/**
+	 * Add the given byte array to the bloom filter
+	 * 
+	 * @param bytes
+	 *            the byte array to be added to the bloom filter, cannot be null
+	 * 
+	 * @return <code>true</code> if the value was added to the bloom filter,
+	 *         <code>false</code> otherwise
+	 * 
+	 * @throws IllegalArgumentException
+	 *             if the byte array is <code>null</code>
+	 */
 	@Override
 	public final boolean add(byte[] bytes) {
 		long hash64 = getLongHash64(bytes);
@@ -230,6 +249,19 @@ public abstract class AbstractBloomFilter<T> implements BloomFilter<T> {
 		return bitsChanged;
 	}
 	
+	/**
+	 * Check if the given byte array item exists in the bloom filter
+	 * 
+	 * @param bytes
+	 *            the byte array to be tested for existence in the bloom filter,
+	 *            cannot be null
+	 * 
+	 * @return <code>true</code> if the value exists in the bloom filter,
+	 *         <code>false</code> otherwise
+	 * 
+	 * @throws IllegalArgumentException
+	 *             if the byte array is <code>null</code>
+	 */
 	@Override
 	public final boolean contains(byte[] bytes) {
 		long hash64 = getLongHash64(bytes);
@@ -250,7 +282,20 @@ public abstract class AbstractBloomFilter<T> implements BloomFilter<T> {
 	
 	// Helper functions for functionality within
 	
+	/**
+	 * Compute one 64-bit hash from the given byte-array using the specified
+	 * {@link HashFunction}.
+	 * 
+	 * @param bytes
+	 *            the byte-array to use for hash computation
+	 * 
+	 * @return the 64-bit hash
+	 */
 	protected long getLongHash64(byte[] bytes) {
+		if(bytes == null) {
+			throw new IllegalArgumentException("Bytes to add to bloom filter cannot be null");
+		}
+		
 		if(this.hasher.isSingleValued()) {
 			return this.hasher.hash(bytes);
 		}
@@ -259,11 +304,15 @@ public abstract class AbstractBloomFilter<T> implements BloomFilter<T> {
 	}
 	
 	/**
-	 * Given the value object, decompose it into a byte-array so that hashing can
-	 * be done over the returned bytes.
+	 * Given the value object, decompose it into a byte-array so that hashing
+	 * can be done over the returned bytes. If a custom {@link Decomposer} has
+	 * been specified, it will be used, otherwise the {@link DefaultDecomposer}
+	 * will be used.
 	 * 
 	 * @param value
-	 * @return
+	 *            the value to be decomposed
+	 * 
+	 * @return the decomposed byte array
 	 */
 	protected byte[] decomposedValue(T value) {
 		ByteSink sink = new ByteSink();
@@ -285,6 +334,15 @@ public abstract class AbstractBloomFilter<T> implements BloomFilter<T> {
 	
 	// Overridden helper functions follow
 	
+	/**
+	 * Add the given value to the bloom filter.
+	 * 
+	 * @param value
+	 *            the value to be added
+	 * 
+	 * @return <code>true</code> if the value was added to the bloom filter,
+	 *         <code>false</code> otherwise
+	 */
 	@Override
 	public boolean add(T value) {
 		if(value == null) {
@@ -294,6 +352,15 @@ public abstract class AbstractBloomFilter<T> implements BloomFilter<T> {
 		return add(decomposedValue(value));
 	}
 
+	/**
+	 * Add all given value in the collection to the bloom filter
+	 * 
+	 * @param values
+	 *            the collection of values to be inserted
+	 * 
+	 * @return <code>true</code> if all values were successfully inserted into
+	 *         the bloom filter, <code>false</code> otherwise
+	 */
 	@Override
 	public boolean addAll(Collection<T> values) {
 		if(values == null || values.isEmpty()) {
@@ -308,6 +375,14 @@ public abstract class AbstractBloomFilter<T> implements BloomFilter<T> {
 		return success;
 	}
 	
+	/**
+	 * Check if the given value exists in the bloom filter. Note that this
+	 * method may return <code>true</code>, indicating a false positive - but
+	 * this is the property of the bloom filter and is not a bug.
+	 * 
+	 * @return <code>false</code> if the value is definitely (100% surety) not
+	 *         contained in the bloom filter, <code>true</code> otherwise.
+	 */
 	@Override
 	public boolean contains(T value) {
 		if(value == null) {
@@ -317,6 +392,12 @@ public abstract class AbstractBloomFilter<T> implements BloomFilter<T> {
 		return contains(value.toString().getBytes(this.currentCharset));
 	}
 	
+	/**
+	 * Check if all the given values exists in the bloom filter or not.
+	 * 
+	 * @return <code>true</code> only if all values are believed to be existing
+	 *         in the bloom filter, <code>false</code> otherwise
+	 */
 	@Override
 	public boolean containsAll(Collection<T> values) {
 		if(values == null || values.isEmpty()) {
@@ -332,6 +413,24 @@ public abstract class AbstractBloomFilter<T> implements BloomFilter<T> {
 		return true;
 	}
 	
+	/**
+	 * Override the default charset that will be used when decomposing the
+	 * {@link String} values into byte arrays. The default {@link Charset} used
+	 * in the platform's default {@link Charset}.
+	 * 
+	 * @param charsetName
+	 *            the name of the charset that needs to be set
+	 * 
+	 * @throws IllegalArgumentException
+	 *             if the charsetName is null
+	 * 
+	 * @throws IllegalCharsetNameException
+	 *             If the given charset name is illegal
+	 * 
+	 * @throws UnsupportedCharsetException
+	 *             If no support for the named charset is available in this
+	 *             instance of the Java virtual machine
+	 */
 	@Override
 	public void setCharset(String charsetName) {
 		if(charsetName == null) {
@@ -341,6 +440,18 @@ public abstract class AbstractBloomFilter<T> implements BloomFilter<T> {
 		setCharset(Charset.forName(charsetName));
 	}
 
+	/**
+	 * Override the default charset that will be used when decomposing the
+	 * {@link String} values into byte arrays. The default {@link Charset} used
+	 * in the platform's default {@link Charset}.
+	 * 
+	 * @param charset
+	 *            the {@link Charset} to be used
+	 * 
+	 * @throws IllegalArgumentException
+	 *             if the charset is null
+	 * 
+	 */
 	@Override
 	public void setCharset(Charset charset) {
 		if(charset == null) {

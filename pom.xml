@@ -1,0 +1,131 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+  
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.sangupta</groupId>
+	<artifactId>bloomfilter</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>bloomfilter</name>
+	<description>Bloom filter</description>
+	<url>http://sangupta.com/projects/bloomfilter</url>
+	<inceptionYear>2014</inceptionYear>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	
+	<scm>
+		<connection>scm:git:git://github.com/sangupta/bloom.git</connection>
+		<developerConnection>scm:git:http://git@github.com/sangupta/bloom.git</developerConnection>
+		<url>https://github.com/sangupta/bloom</url>
+	</scm>
+	
+	<developers>
+		<developer>
+			<id>sangupta</id>
+			<name>Sandeep Gupta</name>
+			<email>sandy.pec@gmail.com</email>
+			<url>http://www.sangupta.com</url>
+		</developer>
+	</developers>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		
+		<maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+        <build.timestamp>${maven.build.timestamp}</build.timestamp>
+        <build.number />
+	</properties>
+	
+	<prerequisites>
+        <maven>3.0.0</maven>
+    </prerequisites>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>16.0.1</version>
+		    <scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.sangupta</groupId>
+			<artifactId>murmur</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<finalName>bloomfilter</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+
+			<!-- Generate the project-javadoc.jar for OSS repository -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.8.1</version>
+			</plugin>
+
+			<!-- Generate the project-sources.jar for OSS repository -->
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.1.2</version>
+            </plugin>
+		</plugins>
+	</build>
+	
+	<profiles>
+		<profile>
+			<id>release</id>	
+			<build>
+				<plugins>
+					<!-- Sign the Maven artifacts -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>			
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	
+</project>

@@ -477,4 +477,18 @@ public abstract class AbstractBloomFilter<T> implements BloomFilter<T> {
 		return null;
 	}
 	
+	/**
+	 * Estimate the current false positive rate (approximated) when given number
+	 * of elements have been inserted in to the filter.
+	 * 
+	 * @param numInsertedElements
+	 *            the number of elements inserted into the filter
+	 * 
+	 * @return the approximated false positive rate
+	 */
+	@Override
+	public double getFalsePositiveProbability(int numInsertedElements) {
+		return Math.pow((1 - Math.exp((- this.kOrNumberOfHashFunctions) * (double) numInsertedElements / (double) this.numBitsRequired)), this.kOrNumberOfHashFunctions);
+	}
+	
 }

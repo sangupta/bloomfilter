@@ -117,5 +117,16 @@ public interface BloomFilter<T> {
 	 * @return
 	 */
 	public Decomposer<T> getObjectDecomposer();
+	
+	/**
+	 * Estimate the current false positive rate (approximated) when given number
+	 * of elements have been inserted in to the filter.
+	 * 
+	 * @param numInsertedElements
+	 *            the number of elements inserted into the filter
+	 * 
+	 * @return the approximated false positive rate
+	 */
+	public double getFalsePositiveProbability(int numInsertedElements);
 
 }

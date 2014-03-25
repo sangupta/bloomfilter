@@ -21,6 +21,7 @@
 
 package com.sangupta.bloomfilter.core;
 
+import java.io.IOException;
 import java.util.BitSet;
 
 public class JavaBitSetArray implements BitArray {
@@ -74,6 +75,11 @@ public class JavaBitSetArray implements BitArray {
 	@Override
 	public int bitSize() {
 		return this.bitSet.size();
+	}
+
+	@Override
+	public void close() throws IOException {
+		// do nothing
 	}
 
 }

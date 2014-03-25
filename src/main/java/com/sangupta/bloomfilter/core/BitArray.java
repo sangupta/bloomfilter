@@ -21,6 +21,8 @@
 
 package com.sangupta.bloomfilter.core;
 
+import java.io.Closeable;
+
 /**
  * A contract for all implementations of bit-arrays. This provides
  * specific methods that will be needed for working with bloom filters.
@@ -28,7 +30,7 @@ package com.sangupta.bloomfilter.core;
  * @author sangupta
  *
  */
-public interface BitArray {
+public interface BitArray extends Closeable {
 
 	/**
 	 * Get the bit at index

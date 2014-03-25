@@ -24,6 +24,8 @@ package com.sangupta.bloomfilter.core;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.lang.reflect.Method;
+import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel.MapMode;
 import java.util.Arrays;
@@ -210,6 +212,39 @@ public class FileBackedBitArray implements BitArray {
 		byte[] bytes = new byte[delta];
 		Arrays.fill(bytes, (byte) 0);
 		this.backingFile.write(bytes);
+	}
+
+	@Override
+	public void close() throws IOException {
+		this.closeDirectBuffer(this.buffer);
+		this.backingFile.close();
+	}
+	
+	/**
+	 * Method that helps unmap a memory-mapped file before being
+	 * garbage-collected.
+	 * 
+	 * @param cb
+	 */
+	protected void closeDirectBuffer(ByteBuffer cb) {
+	    if (!cb.isDirect()) {
+	    	return;
+	    }
+
+	    // we could use this type cast and call functions without reflection code,
+	    // but static import from sun.* package is risky for non-SUN virtual machine.
+	    //try { ((sun.nio.ch.DirectBuffer)cb).cleaner().clean(); } catch (Exception ex) { }
+	    try {
+	        Method cleaner = cb.getClass().getMethod("cleaner");
+	        cleaner.setAccessible(true);
+	        Method clean = Class.forName("sun.misc.Cleaner").getMethod("clean");
+	        clean.setAccessible(true);
+	        clean.invoke(cleaner.invoke(cb));
+	    } catch(Exception ex) { 
+	    	
+	    }
+	    
+	    cb = null;
 	}
 
 }

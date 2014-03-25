@@ -31,7 +31,7 @@ import com.sangupta.bloomfilter.core.JavaBitSetArray;
  * 
  * @author sangupta
  * 
- * @param <T>
+ * @param <T> the type of object to be stored in the filter
  */
 public class InMemoryBloomFilter<T> extends AbstractBloomFilter<T> {
 	

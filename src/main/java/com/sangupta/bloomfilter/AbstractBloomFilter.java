@@ -47,7 +47,7 @@ import com.sangupta.bloomfilter.hash.Murmur3HashFunction;
  * 
  * @author sangupta
  * 
- * @param <T>
+ * @param <T> the type of objects to be stored in the filter
  */
 public abstract class AbstractBloomFilter<T> implements BloomFilter<T> {
 	

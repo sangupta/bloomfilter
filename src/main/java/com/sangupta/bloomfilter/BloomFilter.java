@@ -44,7 +44,7 @@ import com.sangupta.bloomfilter.decompose.Decomposer;
  * 
  * @author sangupta
  *
- * @param <T>
+ * @param <T> the type of objects to be stored in the filter
  */
 public interface BloomFilter<T> {
 	

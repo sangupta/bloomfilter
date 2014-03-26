@@ -119,6 +119,13 @@ public interface BloomFilter<T> {
 	public Decomposer<T> getObjectDecomposer();
 	
 	/**
+	 * Return the number of bits being used by the filter.
+	 * 
+	 * @return the number of bits used by the filter
+	 */
+	public int getNumberOfBits();
+	
+	/**
 	 * Estimate the current false positive rate (approximated) when given number
 	 * of elements have been inserted in to the filter.
 	 * 

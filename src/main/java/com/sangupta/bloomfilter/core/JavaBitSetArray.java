@@ -28,8 +28,11 @@ public class JavaBitSetArray implements BitArray {
 	
 	final BitSet bitSet;
 	
+	final int size;
+	
 	public JavaBitSetArray(int numBits) {
 		this.bitSet = new BitSet(numBits);
+		this.size = this.bitSet.size();
 	}
 
 	@Override
@@ -64,17 +67,33 @@ public class JavaBitSetArray implements BitArray {
 
 	@Override
 	public void or(BitArray bitArray) {
-		// TODO Auto-generated method stub
+		if(bitArray == null) {
+			throw new IllegalArgumentException("BitArray to OR with cannot be null");
+		}
+		
+		if(this.size != bitArray.bitSize()) {
+			throw new IllegalArgumentException("BitArray to OR with is of different length");
+		}
+		
+		throw new RuntimeException("Operation not yet supported");
 	}
 
 	@Override
 	public void and(BitArray bitArray) {
-		// TODO Auto-generated method stub
+		if(bitArray == null) {
+			throw new IllegalArgumentException("BitArray to OR with cannot be null");
+		}
+		
+		if(this.size != bitArray.bitSize()) {
+			throw new IllegalArgumentException("BitArray to OR with is of different length");
+		}
+		
+		throw new RuntimeException("Operation not yet supported");
 	}
 
 	@Override
 	public int bitSize() {
-		return this.bitSet.size();
+		return this.size;
 	}
 
 	@Override

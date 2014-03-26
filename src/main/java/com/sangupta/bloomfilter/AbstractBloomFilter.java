@@ -478,6 +478,14 @@ public abstract class AbstractBloomFilter<T> implements BloomFilter<T> {
 	}
 	
 	/**
+	 * @see BloomFilter#getNumberOfBits()
+	 */
+	@Override
+	public int getNumberOfBits() {
+		return this.numBitsRequired;
+	}
+	
+	/**
 	 * Estimate the current false positive rate (approximated) when given number
 	 * of elements have been inserted in to the filter.
 	 * 

@@ -27,10 +27,23 @@ import java.util.Arrays;
 import com.google.common.math.LongMath;
 import com.google.common.primitives.Ints;
 
+/**
+ * A fast bit-set implementation that allows direct access to data
+ * property so that it can be easily serialized.
+ * 
+ * @author sangupta
+ *
+ */
 public class FastBitSet {
 
-	private final long[] data;
+	/**
+	 * The data-set
+	 */
+	final long[] data;
 	
+	/**
+	 * The current bit count
+	 */
 	private int bitCount;
 
 	public FastBitSet(long bits) {

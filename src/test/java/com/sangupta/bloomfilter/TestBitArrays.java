@@ -38,7 +38,7 @@ import com.sangupta.bloomfilter.core.JavaBitSetArray;
  * {@link FileBackedBitArray}, {@link JavaBitSetArray} and {@link FastBitSet}
  * 
  * @author sangupta
- *
+ * @since 1.0
  */
 public class TestBitArrays {
 	

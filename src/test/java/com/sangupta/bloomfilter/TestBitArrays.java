@@ -19,7 +19,7 @@
  * 
  */
 
-package com.sangupta.bloomfilter.core;
+package com.sangupta.bloomfilter;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,52 +28,64 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import com.sangupta.bloomfilter.core.BitArray;
+import com.sangupta.bloomfilter.core.FastBitSet;
+import com.sangupta.bloomfilter.core.FileBackedBitArray;
+import com.sangupta.bloomfilter.core.JavaBitSetArray;
+
 /**
- * JUnit tests for {@link FileBackedBitArray}.
+ * JUnit tests for various implementations of {@link BitArray}s like 
+ * {@link FileBackedBitArray}, {@link JavaBitSetArray} and {@link FastBitSet}
  * 
  * @author sangupta
  *
  */
-public class TestFileBackedBitArray {
+public class TestBitArrays {
 	
-	private static final int MAX = 1 * 1000 * 1000;
+	private static final int MILLION_ELEMENTS = 1 * 1000 * 1000;
+	
+	@Test
+	public void testJavaBitArray() {
+		BitArray bitArray = new JavaBitSetArray(MILLION_ELEMENTS);
+		testArray(bitArray);
+	}
 	
 	@Test
 	public void testFileBackedBitArray() {
-		FileBackedBitArray ba = null;
+		FileBackedBitArray bitArray = null;
 		try {
 			File file = File.createTempFile("bitarray", ".bits");
 			file.deleteOnExit();
 			
 			long start = System.currentTimeMillis();
-			ba = new FileBackedBitArray(file, MAX);
+			bitArray = new FileBackedBitArray(file, MILLION_ELEMENTS);
 			long end = System.currentTimeMillis();
 			
 			System.out.println("Initialized in " + (end - start) + " millis");
 			
-			// start iterating
-			start = System.currentTimeMillis();
-			for(int index = 0; index < MAX; index++) {
-				Assert.assertFalse(ba.getBit(index));
-				ba.setBit(index);
-				Assert.assertTrue(ba.getBit(index));
-				ba.clearBit(index);
-				Assert.assertFalse(ba.getBit(index));
-			}
-			end = System.currentTimeMillis();
-			
-			System.out.println("Test complete in " + (end - start) + " millis");
+			testArray(bitArray);
 		} catch(Exception e) {
 			e.printStackTrace();
 			Assert.assertTrue(false);
 		} finally {
-			if(ba != null) {
+			if(bitArray != null) {
 				try {
-					ba.close();
+					bitArray.close();
 				} catch (IOException e) {
 					// eat up
 				}
 			}
+		}
+	}
+	
+	private void testArray(BitArray bitArray) {
+		// start iterating
+		for(int index = 0; index < MILLION_ELEMENTS; index++) {
+			Assert.assertFalse(bitArray.getBit(index));
+			bitArray.setBit(index);
+			Assert.assertTrue(bitArray.getBit(index));
+			bitArray.clearBit(index);
+			Assert.assertFalse(bitArray.getBit(index));
 		}
 	}
 

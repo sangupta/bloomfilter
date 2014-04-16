@@ -24,19 +24,22 @@ package com.sangupta.bloomfilter.core;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.lang.reflect.Method;
+import java.nio.ByteBuffer;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel.MapMode;
 import java.util.Arrays;
 
 /**
- * An implementation of {@link BitArray} that uses a normal random
+ * An implementation of {@link BitArray} that uses a memory-mapped
  * file to persist all changes synchronously for the underlying bit
  * array. This is useful for stateful bit-arrays which are expensive
- * to construct yet need a good overall performance. This class is
- * not thread-safe.
+ * to construct yet need the best overall performance.
  * 
  * @author sangupta
- * @since 1.0
+ *
  */
-public class FileBackedBitArray implements BitArray {
+public class MMapFileBackedBitArray implements BitArray {
 	
 	/**
 	 * Underlying file that represents the state of the
@@ -57,6 +60,11 @@ public class FileBackedBitArray implements BitArray {
 	protected final int numBytes;
 	
 	/**
+	 * The memory-mapped byte-buffer
+	 */
+	protected final MappedByteBuffer buffer;
+	
+	/**
 	 * Construct a {@link BitArray} that is backed by the given file. Ensure
 	 * that the file is a local file and not on a network share for performance
 	 * reasons.
@@ -64,7 +72,7 @@ public class FileBackedBitArray implements BitArray {
 	 * @param backingFile
 	 * @throws IOException 
 	 */
-	public FileBackedBitArray(File backingFile, int maxElements) throws IOException {
+	public MMapFileBackedBitArray(File backingFile, int maxElements) throws IOException {
 		if(backingFile == null) {
 			throw new IllegalArgumentException("Backing file cannot be empty/null");
 		}
@@ -86,6 +94,7 @@ public class FileBackedBitArray implements BitArray {
 		
 		// initialize the rest
 		this.maxElements = maxElements;
+		this.buffer = this.backingFile.getChannel().map(MapMode.READ_WRITE, 0, this.backingFile.length());
 	}
 
 	/**
@@ -99,14 +108,8 @@ public class FileBackedBitArray implements BitArray {
 		
 		int pos = index >> 3; // div 8
 		int bit = 1 << (index & 0x7);
-		
-		try {
-			this.backingFile.seek(pos);
-			byte bite = this.backingFile.readByte();
-			return (bite & bit) != 0;
-		} catch(IOException e) {
-			throw new RuntimeException("Unable to read bitset from disk");
-		}
+		byte bite = this.buffer.get(pos);
+		return (bite & bit) != 0;
 	}
 
 	/**
@@ -120,17 +123,10 @@ public class FileBackedBitArray implements BitArray {
 		
 		int pos = index >> 3; // div 8
 		int bit = 1 << (index & 0x7);
-		try {
-			this.backingFile.seek(pos);
-			byte bite = this.backingFile.readByte();
-			bite = (byte) (bite | bit);
-			
-			this.backingFile.seek(pos);
-			this.backingFile.writeByte(bite);
-			return true;
-		} catch(IOException e) {
-			throw new RuntimeException("Unable to read bitset from disk");
-		}
+		byte bite = this.buffer.get(pos);
+		bite = (byte) (bite | bit);
+		this.buffer.put(pos, bite);
+		return true;
 	}
 
 	/**
@@ -138,14 +134,9 @@ public class FileBackedBitArray implements BitArray {
 	 */
 	@Override
 	public void clear() {
-		byte[] bytes = new byte[this.numBytes];
-		Arrays.fill(bytes, (byte) 0);
-		
-		try {
-			this.backingFile.seek(0);
-			this.backingFile.write(bytes);
-		} catch(IOException e) {
-			throw new RuntimeException("Unable to read bitset from disk");
+		byte bite = 0;
+		for(int index = 0; index < this.numBytes; index++) {
+			this.buffer.put(index, bite);
 		}
 	}
 
@@ -161,18 +152,9 @@ public class FileBackedBitArray implements BitArray {
 		int pos = index >> 3; // div 8
 		int bit = 1 << (index & 0x7);
 		bit = ~bit;
-		
-		try {
-			this.backingFile.seek(pos);
-			byte bite = this.backingFile.readByte();
-			bite = (byte) (bite & bit);
-			
-			
-			this.backingFile.seek(pos);
-			this.backingFile.writeByte(bite);
-		} catch(IOException e) {
-			throw new RuntimeException("Unable to read bitset from disk");
-		}
+		byte bite = this.buffer.get(pos);
+		bite = (byte) (bite & bit);
+		this.buffer.put(pos, bite);
 	}
 
 	/**
@@ -234,7 +216,35 @@ public class FileBackedBitArray implements BitArray {
 
 	@Override
 	public void close() throws IOException {
+		this.closeDirectBuffer(this.buffer);
 		this.backingFile.close();
 	}
 	
+	/**
+	 * Method that helps unmap a memory-mapped file before being
+	 * garbage-collected.
+	 * 
+	 * @param cb
+	 */
+	protected void closeDirectBuffer(ByteBuffer cb) {
+	    if (!cb.isDirect()) {
+	    	return;
+	    }
+
+	    // we could use this type cast and call functions without reflection code,
+	    // but static import from sun.* package is risky for non-SUN virtual machine.
+	    //try { ((sun.nio.ch.DirectBuffer)cb).cleaner().clean(); } catch (Exception ex) { }
+	    try {
+	        Method cleaner = cb.getClass().getMethod("cleaner");
+	        cleaner.setAccessible(true);
+	        Method clean = Class.forName("sun.misc.Cleaner").getMethod("clean");
+	        clean.setAccessible(true);
+	        clean.invoke(cleaner.invoke(cb));
+	    } catch(Exception ex) { 
+	    	
+	    }
+	    
+	    cb = null;
+	}
+
 }

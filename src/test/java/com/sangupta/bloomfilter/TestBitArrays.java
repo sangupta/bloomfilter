@@ -32,6 +32,7 @@ import com.sangupta.bloomfilter.core.BitArray;
 import com.sangupta.bloomfilter.core.FastBitSet;
 import com.sangupta.bloomfilter.core.FileBackedBitArray;
 import com.sangupta.bloomfilter.core.JavaBitSetArray;
+import com.sangupta.bloomfilter.core.MMapFileBackedBitArray;
 
 /**
  * JUnit tests for various implementations of {@link BitArray}s like 
@@ -59,6 +60,34 @@ public class TestBitArrays {
 			
 			long start = System.currentTimeMillis();
 			bitArray = new FileBackedBitArray(file, MILLION_ELEMENTS);
+			long end = System.currentTimeMillis();
+			
+			System.out.println("Initialized in " + (end - start) + " millis");
+			
+			testArray(bitArray);
+		} catch(Exception e) {
+			e.printStackTrace();
+			Assert.assertTrue(false);
+		} finally {
+			if(bitArray != null) {
+				try {
+					bitArray.close();
+				} catch (IOException e) {
+					// eat up
+				}
+			}
+		}
+	}
+	
+	@Test
+	public void testMMapFileBackedBitArray() {
+		MMapFileBackedBitArray bitArray = null;
+		try {
+			File file = File.createTempFile("bitarray", ".bits");
+			file.deleteOnExit();
+			
+			long start = System.currentTimeMillis();
+			bitArray = new MMapFileBackedBitArray(file, MILLION_ELEMENTS);
 			long end = System.currentTimeMillis();
 			
 			System.out.println("Initialized in " + (end - start) + " millis");

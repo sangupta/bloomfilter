@@ -28,7 +28,6 @@ import java.io.Closeable;
  * specific methods that will be needed for working with bloom filters.
  *  
  * @author sangupta
- *
  */
 public interface BitArray extends Closeable {
 
@@ -98,7 +97,7 @@ public interface BitArray extends Closeable {
 	/**
 	 * The space used by this {@link BitArray} in number of bytes.
 	 * 
-	 * @return
+	 * @return the number of bytes being used
 	 */
 	public int bitSize();
 

@@ -55,6 +55,7 @@
     </prerequisites>
 
 	<dependencies>
+		<!-- Test only dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -68,6 +69,7 @@
 		    <scope>test</scope>
 		</dependency>
 		
+		<!-- For computing Murmur hashes -->
 		<dependency>
 			<groupId>com.sangupta</groupId>
 			<artifactId>murmur</artifactId>

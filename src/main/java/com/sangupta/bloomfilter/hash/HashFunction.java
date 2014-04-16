@@ -31,10 +31,11 @@ package com.sangupta.bloomfilter.hash;
 public interface HashFunction {
 	
 	/**
-	 * Whether the hash function returns a single long hash
-	 * or multiple long values.
-	 *  
-	 * @return
+	 * Whether the hash function returns a single long hash or multiple long
+	 * values.
+	 * 
+	 * @return whether the hash function returns a single value of multiple
+	 *         values
 	 */
 	public boolean isSingleValued();
 	
@@ -42,8 +43,9 @@ public interface HashFunction {
 	 * Return the hash of the bytes as long.
 	 * 
 	 * @param bytes
+	 *            the bytes to be hashed
 	 * 
-	 * @return
+	 * @return the generated hash value
 	 */
 	public long hash(byte[] bytes);
 	
@@ -51,8 +53,9 @@ public interface HashFunction {
 	 * Return the hash of the bytes as a long array.
 	 * 
 	 * @param bytes
+	 *            the bytes to be hashed
 	 * 
-	 * @return
+	 * @return the generated hash value
 	 */
 	public long[] hashMultiple(byte[] bytes);
 

@@ -52,69 +52,92 @@ public interface BloomFilter<T> {
 	 * Add the given value represented as bytes in to the bloom filter.
 	 * 
 	 * @param bytes
-	 * @return
+	 *            the bytes to be added to bloom filter
+	 * 
+	 * @return <code>true</code> if any bit was modified when adding the value,
+	 *         <code>false</code> otherwise
 	 */
 	public boolean add(byte[] bytes);
 	
 	/**
-	 * Add the given value object to the bloom filter.
+	 * Add the given value object to the bloom filter by decomposing it using
+	 * the given/default {@link Decomposer}
 	 * 
 	 * @param value
-	 * @return
+	 *            the object to be added to the bloom filter
+	 * 
+	 * @return <code>true</code> if any bit was modified when adding the value,
+	 *         <code>false</code> otherwise
 	 */
 	public boolean add(T value);
 	
 	/**
-	 * Add all the values represented as a collection of objects to the bloom filter.
+	 * Add all the values represented as a collection of objects to the bloom
+	 * filter.
 	 * 
 	 * @param values
-	 * @return
+	 *            the values to be added to the bloom filter
+	 * 
+	 * @return <code>true</code> if any bit was modified when adding the values,
+	 *         <code>false</code> otherwise
 	 */
 	public boolean addAll(Collection<T> values);
 	
 	/**
-	 * Check if the value represented as byte-array is present in the bloom filter or not.
+	 * Check if the value represented as byte-array is present in the bloom
+	 * filter or not.
 	 * 
 	 * @param bytes
-	 * @return
+	 *            the byte-array representing the entry
+	 * 
+	 * @return <code>true</code> if the bloom filter indicates the presence of
+	 *         entry, <code>false</code> otherwise
 	 */
 	public boolean contains(byte[] bytes);
 	
 	/**
-	 * Check if the value object is present in the bloom filter or not.
+	 * Check if the value object is present in the bloom filter or not by
+	 * decomposing it using the given/default decomposer
 	 * 
 	 * @param value
-	 * @return
+	 *            the object to be tested for existence in bloom filter
+	 * 
+	 * @return <code>true</code> if the bloom filter indicates the presence of
+	 *         entry, <code>false</code> otherwise
 	 */
 	public boolean contains(T value);
 	
 	/**
-	 * Check if all the values represented as a collection of objects are present in the bloom
-	 * filter or not.
+	 * Check if all the values represented as a collection of objects are
+	 * present in the bloom filter or not.
 	 * 
 	 * @param values
-	 * @return
+	 *            the {@link Collection} of values to be tested for existence in
+	 *            bloom filter
+	 * 
+	 * @return <code>true</code> if the bloom filter indicates that all values
+	 *         are present in the filter, <code>false</code> otherwise
 	 */
 	public boolean containsAll(Collection<T> values);
 
 	/**
 	 * Set the {@link Charset} for the given name for converting objects to byte-arrays.
 	 * 
-	 * @param charset
+	 * @param charsetName the name of the charset to be used
 	 */
 	public void setCharset(String charsetName);
 
 	/**
 	 * Set the {@link Charset} for converting objects to byte-arrays.
 	 * 
-	 * @param charset
+	 * @param charset the {@link Charset} to be used
 	 */
 	public void setCharset(Charset charset);
 
 	/**
 	 * Get the current custom object decomposer.
 	 * 
-	 * @return
+	 * @return the current {@link Decomposer} being used
 	 */
 	public Decomposer<T> getObjectDecomposer();
 	

@@ -23,6 +23,11 @@ package com.sangupta.bloomfilter.hash;
 
 import com.sangupta.murmur.Murmur3;
 
+/**
+ * 
+ * @author sangupta
+ *
+ */
 public class Murmur3HashFunction implements HashFunction {
 	
 	private static final long SEED = 0x7f3a21eal;

@@ -24,6 +24,11 @@ package com.sangupta.bloomfilter.core;
 import java.io.IOException;
 import java.util.BitSet;
 
+/**
+ * 
+ * @author sangupta
+ *
+ */
 public class JavaBitSetArray implements BitArray {
 	
 	final BitSet bitSet;

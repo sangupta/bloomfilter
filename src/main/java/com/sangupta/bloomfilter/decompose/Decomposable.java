@@ -27,7 +27,7 @@ package com.sangupta.bloomfilter.decompose;
  * instance.
  * 
  * @author sangupta
- *
+ * @since 1.0
  */
 public interface Decomposable {
 

@@ -29,14 +29,14 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.sangupta.bloomfilter.core.BitArray;
-import com.sangupta.bloomfilter.core.FastBitSet;
+import com.sangupta.bloomfilter.core.FastBitArray;
 import com.sangupta.bloomfilter.core.FileBackedBitArray;
 import com.sangupta.bloomfilter.core.JavaBitSetArray;
 import com.sangupta.bloomfilter.core.MMapFileBackedBitArray;
 
 /**
  * JUnit tests for various implementations of {@link BitArray}s like 
- * {@link FileBackedBitArray}, {@link JavaBitSetArray} and {@link FastBitSet}
+ * {@link FileBackedBitArray}, {@link JavaBitSetArray} and {@link FastBitArray}
  * 
  * @author sangupta
  * @since 1.0

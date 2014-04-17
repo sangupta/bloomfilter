@@ -43,6 +43,7 @@ import com.sangupta.bloomfilter.decompose.Decomposer;
  * 4) For optimal k: m = -nlnp / ((ln2) ^ 2)
  * 
  * @author sangupta
+ * @since 1.0
  *
  * @param <T> the type of objects to be stored in the filter
  */

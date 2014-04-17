@@ -32,7 +32,7 @@ import java.nio.charset.Charset;
  * {@link Charset} encoding is used.
  * 
  * @author sangupta
- * 
+ * @since 1.0
  */
 public class DefaultDecomposer implements Decomposer<Object> {
 	

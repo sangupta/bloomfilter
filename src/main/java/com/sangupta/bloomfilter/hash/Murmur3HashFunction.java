@@ -24,9 +24,10 @@ package com.sangupta.bloomfilter.hash;
 import com.sangupta.murmur.Murmur3;
 
 /**
+ * A Murmur3 hash function.
  * 
  * @author sangupta
- *
+ * @since 1.0
  */
 public class Murmur3HashFunction implements HashFunction {
 	

@@ -30,6 +30,7 @@ import com.sangupta.bloomfilter.core.JavaBitSetArray;
  * persistence.
  * 
  * @author sangupta
+ * @since 1.0
  * 
  * @param <T> the type of object to be stored in the filter
  */

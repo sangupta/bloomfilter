@@ -37,7 +37,7 @@ import java.util.Arrays;
  * to construct yet need the best overall performance.
  * 
  * @author sangupta
- *
+ * @since 1.0
  */
 public class MMapFileBackedBitArray implements BitArray {
 	

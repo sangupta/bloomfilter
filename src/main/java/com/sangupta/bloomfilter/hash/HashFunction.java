@@ -26,7 +26,7 @@ package com.sangupta.bloomfilter.hash;
  * function for use inside the bloom filters.
  * 
  * @author sangupta
- *
+ * @since 1.0
  */
 public interface HashFunction {
 	

@@ -27,7 +27,7 @@ import java.util.zip.CRC32;
  * A CRC32 hash function.
  * 
  * @author sangupta
- *
+ * @since 1.0
  */
 public class CRC32HashFunction implements HashFunction {
 

@@ -28,6 +28,7 @@ import java.io.Closeable;
  * specific methods that will be needed for working with bloom filters.
  *  
  * @author sangupta
+ * @since 1.0
  */
 public interface BitArray extends Closeable {
 

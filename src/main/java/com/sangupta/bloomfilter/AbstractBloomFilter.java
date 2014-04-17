@@ -46,6 +46,7 @@ import com.sangupta.bloomfilter.hash.Murmur3HashFunction;
  * used.
  * 
  * @author sangupta
+ * @since 1.0
  * 
  * @param <T> the type of objects to be stored in the filter
  */

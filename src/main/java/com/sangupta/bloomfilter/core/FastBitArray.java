@@ -33,9 +33,9 @@ import java.util.Arrays;
  * property so that it can be easily serialized.
  * 
  * @author sangupta
- *
+ * @since 1.0
  */
-public class FastBitSet {
+public class FastBitArray {
 
 	/**
 	 * The data-set
@@ -47,12 +47,18 @@ public class FastBitSet {
 	 */
 	private int bitCount;
 
-	public FastBitSet(long bits) {
+	/**
+	 * Construct an instance of the {@link FastBitArray} that can hold
+	 * the given number of bits
+	 * 
+	 * @param bits the number of bits this instance can hold 
+	 */
+	public FastBitArray(long bits) {
 		this(new long[checkedCast(divide(bits, 64, RoundingMode.CEILING))]);
 	}
 
 	// Used by serialization
-	public FastBitSet(long[] data) {
+	public FastBitArray(long[] data) {
 		if(data == null || data.length == 0) {
 			throw new IllegalArgumentException("Data is either null or zero-length");
 		}
@@ -102,15 +108,15 @@ public class FastBitSet {
 	/**
 	 * Copy the bitset.
 	 * 
-	 * @return a new {@link FastBitSet} that is exactly in the same state as
+	 * @return a new {@link FastBitArray} that is exactly in the same state as
 	 *         this
 	 */
-	public FastBitSet copy() {
-		return new FastBitSet(data.clone());
+	public FastBitArray copy() {
+		return new FastBitArray(data.clone());
 	}
 
 	/** Combines the two BitArrays using bitwise OR. */
-	void putAll(FastBitSet array) {
+	void putAll(FastBitArray array) {
 		if(array == null) {
 			throw new IllegalArgumentException("Array to be combined with cannot be null");
 		}
@@ -129,8 +135,8 @@ public class FastBitSet {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof FastBitSet) {
-			FastBitSet bitArray = (FastBitSet) o;
+		if (o instanceof FastBitArray) {
+			FastBitArray bitArray = (FastBitArray) o;
 			return Arrays.equals(data, bitArray.data);
 		}
 		

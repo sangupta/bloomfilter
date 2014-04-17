@@ -25,9 +25,11 @@ import java.io.IOException;
 import java.util.BitSet;
 
 /**
+ * A {@link BitArray} implementation that uses the standard Java {@link BitSet}
+ * as the underlying implementation.
  * 
  * @author sangupta
- *
+ * @since 1.0
  */
 public class JavaBitSetArray implements BitArray {
 	

@@ -27,9 +27,9 @@
 	</licenses>
 	
 	<scm>
-		<connection>scm:git:git://github.com/sangupta/bloom.git</connection>
-		<developerConnection>scm:git:http://git@github.com/sangupta/bloom.git</developerConnection>
-		<url>https://github.com/sangupta/bloom</url>
+		<connection>scm:git:git://github.com/sangupta/bloomfilter.git</connection>
+		<developerConnection>scm:git:http://git@github.com/sangupta/bloomfilter.git</developerConnection>
+		<url>https://github.com/sangupta/bloomfilter</url>
 	</scm>
 	
 	<developers>

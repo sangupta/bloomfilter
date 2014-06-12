@@ -21,6 +21,8 @@
 
 package com.sangupta.bloomfilter;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Collection;
 
@@ -499,5 +501,18 @@ public abstract class AbstractBloomFilter<T> implements BloomFilter<T> {
 	public double getFalsePositiveProbability(int numInsertedElements) {
 		return Math.pow((1 - Math.exp((- this.kOrNumberOfHashFunctions) * (double) numInsertedElements / (double) this.numBitsRequired)), this.kOrNumberOfHashFunctions);
 	}
-	
+
+	/**
+	 * @see com.sangupta.bloomfilter.BloomFilter#close()
+	 */
+	@Override
+	public void close() {
+		if(this.bitArray instanceof Closeable) {
+			try {
+				((Closeable) this.bitArray).close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

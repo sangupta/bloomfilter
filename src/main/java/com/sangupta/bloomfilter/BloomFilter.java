@@ -159,5 +159,12 @@ public interface BloomFilter<T> {
 	 * @return the approximated false positive rate
 	 */
 	public double getFalsePositiveProbability(int numInsertedElements);
+	
+	/**
+	 * Close down the bloom filter and flush any pending changes
+	 * to the disk.
+	 * 
+	 */
+	public void close();
 
 }

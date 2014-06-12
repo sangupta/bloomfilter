@@ -77,7 +77,7 @@ public class MMapFileBackedBitArray implements BitArray {
 			throw new IllegalArgumentException("Backing file cannot be empty/null");
 		}
 		
-		if(!backingFile.isFile()) {
+		if(backingFile.exists() && !backingFile.isFile()) {
 			throw new IllegalArgumentException("Backing file does not represent a valid file");
 		}
 		

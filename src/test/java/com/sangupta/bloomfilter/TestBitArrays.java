@@ -48,7 +48,7 @@ public class TestBitArrays {
 	@Test
 	public void testJavaBitArray() {
 		BitArray bitArray = new JavaBitSetArray(MILLION_ELEMENTS);
-		testArray(bitArray);
+		testArray(bitArray, MILLION_ELEMENTS);
 	}
 	
 	@Test
@@ -58,13 +58,9 @@ public class TestBitArrays {
 			File file = File.createTempFile("bitarray", ".bits");
 			file.deleteOnExit();
 			
-			long start = System.currentTimeMillis();
 			bitArray = new FileBackedBitArray(file, MILLION_ELEMENTS);
-			long end = System.currentTimeMillis();
 			
-			System.out.println("Initialized in " + (end - start) + " millis");
-			
-			testArray(bitArray);
+			testArray(bitArray, MILLION_ELEMENTS / 1000);
 		} catch(Exception e) {
 			e.printStackTrace();
 			Assert.assertTrue(false);
@@ -86,13 +82,9 @@ public class TestBitArrays {
 			File file = File.createTempFile("bitarray", ".bits");
 			file.deleteOnExit();
 			
-			long start = System.currentTimeMillis();
 			bitArray = new MMapFileBackedBitArray(file, MILLION_ELEMENTS);
-			long end = System.currentTimeMillis();
 			
-			System.out.println("Initialized in " + (end - start) + " millis");
-			
-			testArray(bitArray);
+			testArray(bitArray, MILLION_ELEMENTS);
 		} catch(Exception e) {
 			e.printStackTrace();
 			Assert.assertTrue(false);
@@ -107,9 +99,9 @@ public class TestBitArrays {
 		}
 	}
 	
-	private void testArray(BitArray bitArray) {
+	private void testArray(BitArray bitArray, int maxElements) {
 		// start iterating
-		for(int index = 0; index < MILLION_ELEMENTS; index++) {
+		for(int index = 0; index < maxElements; index++) {
 			Assert.assertFalse(bitArray.getBit(index));
 			bitArray.setBit(index);
 			Assert.assertTrue(bitArray.getBit(index));

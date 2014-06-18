@@ -11,7 +11,7 @@
 
 	<groupId>com.sangupta</groupId>
 	<artifactId>bloomfilter</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.9.0</version>
 	<packaging>jar</packaging>
 
 	<name>bloomfilter</name>

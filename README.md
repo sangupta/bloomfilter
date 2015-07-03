@@ -40,7 +40,7 @@ The library can be downloaded from Maven Central using:
 <dependency>
     <groupId>com.sangupta</groupId>
     <artifactId>bloomfilter</artifactId>
-    <version>0.0.1</version>
+    <version>0.9.0</version>
 </dependency>
 ```
 
@@ -49,9 +49,22 @@ Other Similar Projects
 
 Other similar bloom filter implementations include:
 
-* Google Guava, read more at http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/hash/BloomFilter.html
-* Orestes-Bloomfilter at https://github.com/DivineTraube/Orestes-Bloomfilter
-* greplin-bloom-filter at https://github.com/Cue/greplin-bloom-filter
+#### Google Guava
+Read more at http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/hash/BloomFilter.html
+
+* As explained before, is heavy.
+
+#### Orestes-Bloomfilter
+https://github.com/DivineTraube/Orestes-Bloomfilter
+
+* Does not have a persisted version of a BloomFilter
+* Does not have a Murmur3 implementation
+
+#### Greplin-bloom-filter 
+https://github.com/Cue/greplin-bloom-filter
+
+* The persisted bloom filter does not use memory-mapped files, rather the slower file-seek-change-repeat workflow. 
+* No Murmur3 implementation
 
 Continuous Integration
 ----------------------

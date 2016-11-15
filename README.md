@@ -26,7 +26,11 @@ more extensions baked in.
 ## Usage
 
 ```
+// the maximum number of elements that the filter will contain
 int numberOfElements = 1000 * 1000;
+
+// the max false positive probability that is desired
+// the lower the value - the more will be the memory usage
 double fpp = 0.01d;
 
 // this creates an in-memory bloom filter - useful when you need to dispose off the
@@ -38,8 +42,9 @@ BloomFilter<String> filter = new InMemoryBloomFilter<String>(numberOfElements, f
 filter = new AbstractBloomFilter<String>(numberOfElements, fpp) {
 
 	/**
-	 * Used a normal {@link JavaBitSetArray}.
+	 * Used a {@link FileBackedBitArray} to allow for file persistence.
 	 * 
+	 * @returns a {@link BitArray} that will take care of storage of bloom filter
 	 */
 	@Override
 	protected BitArray createBitArray(int numBits) {
@@ -48,6 +53,17 @@ filter = new AbstractBloomFilter<String>(numberOfElements, fpp) {
 	
 };
 ```
+
+`BitArray` is an interface defined in `com.sangupta.bloomfilter.core` package. This provides methods that
+any implementation can be provide and thus be used as a bloom-filter implementation. This allows for rolling
+out bloom filter implementations backed by file based persistence, Redis server or similar. The following
+implementations are available for the `interface`:
+
+* FastBitArray - faster than the default Java one
+* JavaBitSetArray - uses Java BitSet as backing array
+* FileBackedBitArray - uses normal file backing object in random mode
+* MMapFileBackedBitArray - uses memory-mapped file, much faster than FileBackedBitArray
+
 
 ## Builds
 

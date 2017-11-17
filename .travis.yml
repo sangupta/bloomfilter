@@ -2,8 +2,20 @@ language: java
 
 sudo: false
 
-jdk:
-  - oraclejdk8
-  - openjdk7
-  - oraclejdk7
-  - openjdk6
+matrix:
+  include:
+    - os: linux
+      dist: precise
+      jdk: oraclejdk7
+    - os: linux
+      dist: precise
+      jdk: openjdk7
+    - os: linux
+      dist: trusty
+      jdk: oraclejdk8
+    - os: linux
+      dist: trusty
+      jdk: oraclejdk9
+
+after_success:
+  - mvn clean cobertura:cobertura coveralls:report

@@ -25,7 +25,7 @@ more extensions baked in.
 
 ## Usage
 
-```
+```java
 // the maximum number of elements that the filter will contain
 int numberOfElements = 1000 * 1000;
 

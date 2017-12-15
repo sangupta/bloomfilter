@@ -1,5 +1,9 @@
 # bloomfilter
 
+[![Travis](https://img.shields.io/travis/sangupta/bloomfilter.svg)]()
+[![Coveralls](https://img.shields.io/coveralls/sangupta/bloomfilter.svg)]()
+[![license](https://img.shields.io/github/license/sangupta/bloomfilter.svg)]()
+
 `bloomfilter` is a pure Java Bloom Filter implementation that provides simple persistable bloom filters. The
 entire bloom filter is abstracted into various layers so that the same can be changed by pure plug-and-play implementations
 such as decomposing an object to a byte-stream, or the hash function to be used, or the serialization strategy to
@@ -67,7 +71,7 @@ implementations are available for the `interface`:
 
 ## Builds
 
-**Current Snapshot**
+**0.9.0** (17 Jun 2017)
 
 * First release with Murmur 1/2/3 hashes
 
@@ -106,7 +110,7 @@ https://github.com/Cue/greplin-bloom-filter
 
 ## Continuous Integration
 
-The library is continuously integrated and unit tested using the *Travis CI system.
+The library is continuously integrated and unit tested using the *Travis CI system*.
 
 Current status of branch `MASTER`: [![Build Status](https://secure.travis-ci.org/sangupta/bloomfilter.png?branch=master)](http://travis-ci.org/sangupta/bloomfilter)
 
@@ -138,21 +142,20 @@ For more information on SemVer, please visit http://semver.org/.
 ## License
 
 ```
-Copyright (c) 2014-2016, Sandeep Gupta
+bloomfilter: Bloom filters for Java
+Copyright (c) 2014-2017, Sandeep Gupta
 
-The project uses various other libraries that are subject to their
-own license terms. See the distribution libraries or the project
-documentation for more details.
+https://sangupta.com/projects/bloomfilter
 
-The entire source is licensed under the Apache License, Version 2.0 
-(the "License"); you may not use this work except in compliance with
-the LICENSE. You may obtain a copy of the License at
-
-	http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-```
+Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ ```

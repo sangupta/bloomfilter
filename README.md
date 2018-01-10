@@ -3,7 +3,7 @@
 [![Travis](https://img.shields.io/travis/sangupta/bloomfilter.svg)]()
 [![Coveralls](https://img.shields.io/coveralls/sangupta/bloomfilter.svg)]()
 [![license](https://img.shields.io/github/license/sangupta/bloomfilter.svg)]()
-[![Maven Central](https://img.shields.io/maven-central/v/com.sangupta/gather.svg)]()
+[![Maven Central](https://img.shields.io/maven-central/v/com.sangupta/bloomfilter.svg)]()
 
 `bloomfilter` is a pure Java Bloom Filter implementation that provides simple persistable bloom filters. The
 entire bloom filter is abstracted into various layers so that the same can be changed by pure plug-and-play implementations

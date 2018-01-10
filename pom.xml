@@ -83,6 +83,13 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+
+            <!-- Report the coverage to coveralls -->
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>4.3.0</version>
+            </plugin>
 		</plugins>
 	</build>
 	
@@ -91,13 +98,6 @@
             <id>release</id>
             <build>
                 <plugins>
-                    <!-- Report the coverage to coveralls -->
-                    <plugin>
-                        <groupId>org.eluder.coveralls</groupId>
-                        <artifactId>coveralls-maven-plugin</artifactId>
-                        <version>4.3.0</version>
-                    </plugin>
-
                     <!-- Generate the project-javadoc.jar for OSS repository -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>

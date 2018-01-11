@@ -84,6 +84,21 @@
 				</configuration>
 			</plugin>
 
+            <!-- for code coverage -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.0</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Report the coverage to coveralls -->
             <plugin>
                 <groupId>org.eluder.coveralls</groupId>

@@ -1,14 +1,20 @@
 # bloomfilter
 
-[![Travis](https://img.shields.io/travis/sangupta/bloomfilter.svg)]()
-[![Coveralls](https://img.shields.io/coveralls/sangupta/bloomfilter.svg)]()
-[![license](https://img.shields.io/github/license/sangupta/bloomfilter.svg)]()
-[![Maven Central](https://img.shields.io/maven-central/v/com.sangupta/bloomfilter.svg)]()
+[![Build Status](https://img.shields.io/travis/sangupta/bloomfilter.svg)](https://travis-ci.org/sangupta/bloomfilter)
+[![Coverage Status](https://img.shields.io/coveralls/sangupta/bloomfilter.svg)](https://coveralls.io/github/sangupta/bloomfilter?branch=master)
+[![License](https://img.shields.io/github/license/sangupta/bloomfilter.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Maven Central](https://img.shields.io/maven-central/v/com.sangupta/bloomfilter.svg)](https://maven-badges.herokuapp.com/maven-central/com.sangupta/bloomfilter)
 
 `bloomfilter` is a pure Java Bloom Filter implementation that provides simple persistable bloom filters. The
 entire bloom filter is abstracted into various layers so that the same can be changed by pure plug-and-play implementations
 such as decomposing an object to a byte-stream, or the hash function to be used, or the serialization strategy to
 be used.
+
+The library is unit-tested on the following platforms:
+
+* Oracle JDK 7
+* Oracle JDK 8
+* Oracle JDK 9
 
 ## Why another Bloom Filter implementation?
 
@@ -20,13 +26,16 @@ the size of the payload. Many of my modules/projects did not need `Guava` and ad
 bloom filter was coming out to be expensive. Thus, `bloomfilter` was born.
 
 The `bloomfilter` is inspired by the `Guava` bloom filter implementation and uses a similar approach, with 
-more extensions baked in.
+more extension points baked in.
 
 ## Features
 
-* Uses pure Java murmur hash implementation as default hash function
-* Various persisting methodologies - Java serialization, disk file etc
-* No dependencies
+* Uses pure Java [murmur](https://github.com/sangupta/murmur) hash implementation as default hash function
+* Multiple persisting methodologies
+  * In-memory filter
+  * Java serialization disk filter
+  * Memory-mapped disk filter
+* Lightweight with no dependencies, 23KB size
 
 ## Usage
 
@@ -109,20 +118,6 @@ https://github.com/Cue/greplin-bloom-filter
 * The persisted bloom filter does not use memory-mapped files, rather the slower file-seek-change-repeat workflow. 
 * No Murmur3 implementation
 
-## Continuous Integration
-
-The library is continuously integrated and unit tested using the *Travis CI system*.
-
-Current status of branch `MASTER`: [![Build Status](https://secure.travis-ci.org/sangupta/bloomfilter.png?branch=master)](http://travis-ci.org/sangupta/bloomfilter)
-
-The library is tested against
-
-* Oracle JDK 7
-* Open JDK 7
-
-Note: JDK6 has been removed from the list due to end-of-life from Oracle, and as support has been dropped by
-http://travis-ci.org as well.
-
 ## Versioning
 
 For transparency and insight into our release cycle, and for striving to maintain backward compatibility, 
@@ -144,7 +139,7 @@ For more information on SemVer, please visit http://semver.org/.
 
 ```
 bloomfilter: Bloom filters for Java
-Copyright (c) 2014-2017, Sandeep Gupta
+Copyright (c) 2014-2018, Sandeep Gupta
 
 https://sangupta.com/projects/bloomfilter
 
@@ -159,4 +154,4 @@ Licensed under the Apache License, Version 2.0 (the "License");
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License.
- ```
+```

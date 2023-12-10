@@ -24,6 +24,8 @@ package com.sangupta.bloomfilter;
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.IllegalCharsetNameException;
+import java.nio.charset.UnsupportedCharsetException;
 import java.util.Collection;
 
 import com.sangupta.bloomfilter.core.BitArray;
@@ -391,8 +393,8 @@ public abstract class AbstractBloomFilter<T> implements BloomFilter<T> {
 		if(value == null) {
 			return false;
 		}
-		
-		return contains(value.toString().getBytes(this.currentCharset));
+
+		return contains(decomposedValue(value));
 	}
 	
 	/**

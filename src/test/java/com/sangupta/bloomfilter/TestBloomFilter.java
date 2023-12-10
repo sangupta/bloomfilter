@@ -21,10 +21,15 @@
 
 package com.sangupta.bloomfilter;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.sangupta.bloomfilter.core.BitArray;
+import com.sangupta.bloomfilter.core.JavaBitSetArray;
+import com.sangupta.bloomfilter.decompose.ByteSink;
+import com.sangupta.bloomfilter.decompose.Decomposer;
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -99,4 +104,23 @@ public class TestBloomFilter {
 		System.out.println("False positives found in two millions: " + fpp);
 	}
 
+	@Test
+	public void testDelegatesFilter() {
+		String input = "hello";
+
+		BloomFilter<String> filter = new AbstractBloomFilter<String>(10 * MAX, FPP, new Decomposer<String>() {
+			@Override
+			public void decompose(String object, ByteSink sink) {
+				sink.putBytes(new StringBuilder(object).reverse().toString().getBytes(Charset.defaultCharset()));
+			}
+		}) {
+
+			@Override
+			protected BitArray createBitArray(int numBits) {
+				return new JavaBitSetArray(numBits);
+			}
+		};
+		filter.add(input);
+		Assert.assertTrue(filter.contains(input));
+	}
 }
